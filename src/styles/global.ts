@@ -1,22 +1,7 @@
 import { css } from '@emotion/react'
 
-import { Theme } from '@/src/types/styles/global'
-
-export const theme: Theme = {
-  colors: {
-    bg: {
-      gray: '#F5F4F9',
-      white: '#FFFFFF',
-      purple: '#5E3DB3',
-      darkBlue: '#090C35',
-    }
-  },
-  space: {
-    gap1: '.8rem',
-    gap2: '1.2rem',
-    gap3: '1.6rem',
-  }
-}
+import { theme } from '@/src/constants/styles'
+import { Theme } from '@/src/types/constants/styles'
 
 export default css`
 
@@ -26,91 +11,43 @@ export default css`
     overflow-x: hidden;
   }
 
-  /** spacing padding */
-  .p-1 { padding: ${theme.space.gap1}; }
-  .pl-1 { padding-left: ${theme.space.gap1}; }
-  .pr-1 { padding-right: ${theme.space.gap1}; }
-  .pt-1 { padding-top: ${theme.space.gap1}; }
-  .pb-1 { padding-bottom: ${theme.space.gap1}; }
-  .px-1 {
-    padding-left: ${theme.space.gap1} !important;
-    padding-right: ${theme.space.gap1} !important;
-  }
-  .py-1 {
-    padding-top: ${theme.space.gap1} !important;
-    padding-bottom: ${theme.space.gap1} !important;
-  }
+  /** spacing */
+  .p-0 { padding: 0 !important; }
+  .pl-0 { padding-left: 0 !important; }
+  .pr-0 { padding-right: 0 !important; }
+  .pt-0 { padding-top: 0 !important; }
+  .pb-0 { padding-bottom: 0 !important; }
+  .px-0 { padding-left: 0 !important; padding-right: 0 !important; }
+  .py-0 { padding-top: 0 !important; padding-bottom: 0 !important; }
 
+  .m-0 { margin: 0 !important; }
+  .ml-0 { margin-left: 0 !important; }
+  .mr-0 { margin-right: 0 !important; }
+  .mt-0 { margin-top: 0 !important; }
+  .mb-0 { margin-bottom: 0 !important; }
+  .mx-0 { margin-left: 0 !important; margin-right: 0 !important; }
+  .my-0 { margin-top: 0 !important; margin-bottom: 0 !important; }
 
-  .p-2 { padding: ${theme.space.gap2}; }
-  .pl-2 { padding-left: ${theme.space.gap2}; }
-  .pr-2 { padding-right: ${theme.space.gap2}; }
-  .pt-2 { padding-top: ${theme.space.gap2}; }
-  .pb-2 { padding-bottom: ${theme.space.gap2}; }
-  .px-2 {
-    padding-left: ${theme.space.gap2} !important;
-    padding-right: ${theme.space.gap2} !important;
-  }
-  .py-2 {
-    padding-top: ${theme.space.gap2} !important;
-    padding-bottom: ${theme.space.gap2} !important;
-  }
+  ${
+    (Object.keys(theme.space) as Array<keyof Theme['space']>).map((key, idx) => css`
 
-  .p-3 { padding: ${theme.space.gap3}; }
-  .pl-3 { padding-left: ${theme.space.gap3}; }
-  .pr-3 { padding-right: ${theme.space.gap3}; }
-  .pt-3 { padding-top: ${theme.space.gap3}; }
-  .pb-3 { padding-bottom: ${theme.space.gap3}; }
-  .px-3 {
-    padding-left: ${theme.space.gap3} !important;
-    padding-right: ${theme.space.gap3} !important;
-  }
-  .py-3 {
-    padding-top: ${theme.space.gap3} !important;
-    padding-bottom: ${theme.space.gap3} !important;
-  }
+      .p-${idx + 1} { padding: ${theme.space[key]} !important; }
+      .pl-${idx + 1} { padding-left: ${theme.space[key]} !important; }
+      .pr-${idx + 1} { padding-right: ${theme.space[key]} !important; }
+      .pt-${idx + 1} { padding-top: ${theme.space[key]} !important; }
+      .pb-${idx + 1} { padding-bottom: ${theme.space[key]} !important; }
+      .px-${idx + 1} { padding-left: ${theme.space[key]} !important; padding-right: ${theme.space[key]} !important; }
+      .py-${idx + 1} { padding-top: ${theme.space[key]} !important; padding-bottom: ${theme.space[key]} !important; }
 
-  /** spacing margin */
-  .m-1 { margin: ${theme.space.gap1}; }
-  .ml-1 { margin-left: ${theme.space.gap1}; }
-  .mr-1 { margin-right: ${theme.space.gap1}; }
-  .mt-1 { margin-top: ${theme.space.gap1}; }
-  .mb-1 { margin-bottom: ${theme.space.gap1}; }
-  .mx-1 {
-    margin-left: ${theme.space.gap1} !important;
-    margin-right: ${theme.space.gap1} !important;
-  }
-  .my-1 {
-    margin: ${theme.space.gap1} !important;
-    margin-bottom: ${theme.space.gap1} !important;
-  }
+      .m-${idx + 1} { margin: ${theme.space[key]} !important; }
+      .ml-${idx + 1} { margin-left: ${theme.space[key]} !important; }
+      .mr-${idx + 1} { margin-right: ${theme.space[key]} !important; }
+      .mt-${idx + 1} { margin-top: ${theme.space[key]} !important; }
+      .mb-${idx + 1} { margin-bottom: ${theme.space[key]} !important; }
+      .mx-${idx + 1} { margin-left: ${theme.space[key]} !important; margin-right: ${theme.space[key]} !important; }
+      .my-${idx + 1} { margin-top: ${theme.space[key]} !important; margin-bottom: ${theme.space[key]} !important; }
 
-  .m-2 { margin: ${theme.space.gap2}; }
-  .ml-2 { margin-left: ${theme.space.gap2}; }
-  .mr-2 { margin-right: ${theme.space.gap2}; }
-  .mt-2 { margin-top: ${theme.space.gap2}; }
-  .mb-2 { margin-bottom: ${theme.space.gap2}; }
-  .mx-2 {
-    margin-left: ${theme.space.gap2} !important;
-    margin-right: ${theme.space.gap2} !important;
-  }
-  .my-2 {
-    margin: ${theme.space.gap2} !important;
-    margin-bottom: ${theme.space.gap2} !important;
-  }
-
-  .m-3 { margin: ${theme.space.gap3}; }
-  .ml-3 { margin-left: ${theme.space.gap3}; }
-  .mr-3 { margin-right: ${theme.space.gap3}; }
-  .mt-3 { margin-top: ${theme.space.gap3}; }
-  .mb-3 { margin-bottom: ${theme.space.gap3}; }
-  .mx-3 {
-    margin-left: ${theme.space.gap3} !important;
-    margin-right: ${theme.space.gap3} !important;
-  }
-  .my-3 {
-    margin: ${theme.space.gap3} !important;
-    margin-bottom: ${theme.space.gap3} !important;
+    `)
   }
 
 `

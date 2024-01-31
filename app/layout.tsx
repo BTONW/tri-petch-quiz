@@ -1,10 +1,11 @@
 'use client'
 
-import { FC, ReactNode } from 'react'
+import { FC, PropsWithChildren } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
 import { Roboto } from 'next/font/google'
 
-import styles, { theme } from '@/src/styles/global'
+import styles from '@/src/styles/global'
+import { theme } from '@/src/constants/styles'
 
 const roboto = Roboto({
   weight: ['400', '700'],
@@ -12,7 +13,7 @@ const roboto = Roboto({
   subsets: ['latin'],
 })
 
-const RootLayout: FC<{ children: ReactNode }> = ({ children }) => {
+const RootLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <ThemeProvider theme={theme}>
       <Global styles={styles} />

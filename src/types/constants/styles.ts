@@ -5,6 +5,11 @@ export interface Theme {
       white: string
       purple: string
       darkBlue: string
+    },
+    text: {
+      white: string
+      grayPrimary: string
+      graySecondary: string
     }
   },
   space: {
