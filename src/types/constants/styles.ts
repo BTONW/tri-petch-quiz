@@ -7,9 +7,15 @@ export interface Theme {
       darkBlue: string
     },
     text: {
+      black: string
       white: string
+      purple: string
       grayPrimary: string
       graySecondary: string
+    },
+    underline: {
+      white: string
+      purple: string
     }
   },
   space: {

@@ -9,9 +9,15 @@ export const theme: Theme = {
       darkBlue: '#090C35',
     },
     text: {
+      black: '#000000',
       white: '#FFFFFF',
+      purple: '#8F6BE8',
       grayPrimary: '#E7E7E7',
       graySecondary: '#C2C2C2'
+    },
+    underline: {
+      white: '#FFFFFF',
+      purple: '#603EBE',
     }
   },
   space: {
