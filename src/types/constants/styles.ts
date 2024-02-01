@@ -16,6 +16,10 @@ export interface Theme {
     underline: {
       white: string
       purple: string
+    },
+    bullets: {
+      active: string
+      inActive: string
     }
   },
   space: {

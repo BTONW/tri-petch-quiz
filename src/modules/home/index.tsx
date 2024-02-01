@@ -1,9 +1,10 @@
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import useWindowDimensions from '@/src/hooks/useWindowDimensions'
 import LandingSwipe from '@/src/components/LandingSwipe'
 
 import data from './data'
 import { DataLanding } from '@/src/types/modules/home'
+import { theme } from '@/src/constants/styles'
 
 const ViewComponent: FC = () => {
   const [athlets, setAthlets] = useState(1)
@@ -55,6 +56,11 @@ const ViewComponent: FC = () => {
               isSwipe={isMobile}
               active={handleGetSwipe(val) as number}
               onSwipe={e => handleChangeSwipe(val, e.activeIndex)}
+              onBullet={activeId => handleChangeSwipe(val, activeId)}
+              bullets={{
+                bg: theme.colors.bg.gray,
+                amount: val.items.filter(item => !item.heading).length
+              }}
             >
               {
                 val.items.filter(item => !item.heading).map(item => (

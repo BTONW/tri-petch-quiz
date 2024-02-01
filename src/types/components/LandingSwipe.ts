@@ -27,10 +27,15 @@ export interface ImageProps extends Props {
   }
 }
 
-export interface Swiperprops {
+export interface SwiperProps {
   active: number
   isSwipe: boolean
   onSwipe: (event: SwiperClass) => void
+  onBullet: (value: number) => void
+  bullets: {
+    bg: string
+    amount: number 
+  }
 }
 
 export interface ConsumerFC extends ReactFC<PropsWithChildren<{ Component: StyledComponent<any> }>> {}
@@ -42,5 +47,5 @@ export interface FC<P> extends ReactFC<PropsWithChildren<P>> {
   Heading: ReactFC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>>
   Topic: ReactFC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>>
   Description: ReactFC<PropsWithChildren<HTMLAttributes<HTMLParagraphElement>>>
-  Swiper: ReactFC<Swiperprops & PropsWithChildren<HTMLAttributes<HTMLDivElement>>>
+  Swiper: ReactFC<SwiperProps & PropsWithChildren<HTMLAttributes<HTMLDivElement>>>
 }

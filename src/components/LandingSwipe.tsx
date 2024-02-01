@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react'
 import { Children, isValidElement, createContext, useState, useContext, useEffect } from 'react'
 
 import { Theme } from '@/src/types/constants/styles'
-import { FC, ConsumerFC, Props, ContentProps, ImageProps } from '@/src/types/components/LandingSwipe'
+import { FC, ConsumerFC, Props, ContentProps, ImageProps, SwiperProps } from '@/src/types/components/LandingSwipe'
 
 const getMargin = (position: Props['position']) => position === 'left'
   ? css`
@@ -47,7 +47,7 @@ const Content = styled('div')<ContentProps>`
     @media screen and (max-width: 730px) { // mobile
       padding: 60px 20px ${typeof pb !== 'undefined'
         ? pb
-        : 60
+        : 0
       }px;
     }
   `}
@@ -222,6 +222,24 @@ const Description = styled('p')<Props>`
   }
 `
 
+const WrapperBullet = styled('div')<Pick<SwiperProps, 'bullets'>>`
+  display: flex;
+  padding: 25px 0;
+  justify-content: center;
+  background-color: ${({ bullets }) => bullets.bg};
+`
+
+const Bullets = styled('div')<{ isActive?: boolean }>`
+  width: 10px;
+  height: 10px;
+  margin: 0 6px;
+  border-radius: 50%;
+  background-color: ${({ isActive, theme }) => isActive
+    ? theme.colors.bullets.active
+    : theme.colors.bullets.inActive
+  };
+`
+
 const Wrapper = styled('div')`
   position: relative;
 
@@ -265,7 +283,15 @@ const LandingSwipe: FC<Props> = ({ children, ...props }) => {
   )
 }
 
-LandingSwipe.Swiper = ({ children, isSwipe, active, onSwipe }) => {
+LandingSwipe.Swiper = ({
+  active,
+  isSwipe,
+  bullets,
+  children,
+  onSwipe,
+  onBullet
+}) => {
+  const [pagiante, setPaginate] = useState<number[]>([])
   const [swiper, setSwiper] = useState<SwiperClass>()
 
   const handleOnSetSwiper = () => {
@@ -277,25 +303,46 @@ LandingSwipe.Swiper = ({ children, isSwipe, active, onSwipe }) => {
   useEffect(() => {
     handleOnSetSwiper()
   }, [active, swiper])
+
+  useEffect(() => {
+    const items = []
+    for (let i = 0; i < bullets.amount; i++) {
+      items.push(i)
+    }
+    setPaginate(items)
+  }, [bullets])
   
   return isSwipe ? (
-    <Swiper
-      spaceBetween={0}
-      slidesPerView={1}
-      onSwiper={setSwiper}
-      onSlideChange={onSwipe}
-    >
-      {
-        Children.map(children, child => {
-          if (isValidElement(child)) {
-            return (
-              <SwiperSlide key={child.key}>{child}</SwiperSlide>
-            )
-          }
-          return child
-        })
-      }
-    </Swiper>
+    <>
+      <Swiper
+        spaceBetween={0}
+        slidesPerView={1}
+        onSwiper={setSwiper}
+        onSlideChange={onSwipe}
+      >
+        {
+          Children.map(children, child => {
+            if (isValidElement(child)) {
+              return (
+                <SwiperSlide key={child.key}>{child}</SwiperSlide>
+              )
+            }
+            return child
+          })
+        }
+      </Swiper>
+      <WrapperBullet bullets={bullets}>
+        {
+          pagiante.map((val) => (
+            <Bullets
+              key={val}
+              isActive={val === active}
+              onClick={() => onBullet(val)}
+            />
+          ))
+        }
+      </WrapperBullet>
+    </>
   ) : children
 }
 

@@ -18,6 +18,10 @@ export const theme: Theme = {
     underline: {
       white: '#FFFFFF',
       purple: '#603EBE',
+    },
+    bullets: {
+      active: '#5C3CAF',
+      inActive: '#D8D8D8'
     }
   },
   space: {
