@@ -1,32 +1,40 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
-import { FC as ReactFC, PropsWithChildren, createContext, useContext } from 'react'
+import { createContext, useContext } from 'react'
 
 import { Theme } from '@/src/types/constants/styles'
-import { FC, Props } from '@/src/types/components/LandingSwip'
+import { FC, ConsumerFC, Props, ContentProps } from '@/src/types/components/LandingSwip'
+
+const getMargin = (position: Props['position']) => position === 'left'
+  ? css`
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: auto;
+      margin-right: 0;
+    `
+  : css`margin: 0;`
 
 // @emotion styled ------------------
 
-const Content = styled('div')<Props>`
-  position: relative;
+const Content = styled('div')<ContentProps>`
   display: flex;
-  padding: 60px 0;
-  ${({ position }) => css`
-    justify-content: ${position === 'left' ? 'flex-start' : 'flex-end'};
+  position: relative;
+  ${({ color, theme, position, pb }) => css`
+    background-color: ${theme.colors.bg[color]};
+    padding: 60px 0 ${typeof pb !== 'undefined'
+      ? pb
+      : 60
+    }px;
+    justify-content: ${position === 'left'
+      ? 'flex-start'
+      : 'flex-end'
+    };
+    color: ${theme.colors.text[
+      ['darkBlue', 'purple'].includes(color)
+        ? 'white'
+        : 'black'
+    ]};
   `}
-
-  ${({ theme }) =>
-    (Object.keys(theme.colors.bg) as Array<keyof Theme['colors']['bg']>).map(key => css`
-      &.${key} {
-        background-color: ${theme.colors.bg[key]};
-
-        ${['darkBlue', 'purple'].includes(key)
-          ? css`color: ${theme.colors.text.white};`
-          : ''
-        }
-      }
-    `)
-  }
 `
 
 const Container = styled('div')`
@@ -38,13 +46,10 @@ const Heading = styled('h1')<Props>`
   max-width: 700px;
   font-size: 90px;
   font-weight: 400;
-  line-height: 100px;
-  color: ${({ theme }) => theme.colors.text.grayPrimary};
+  line-height: 105.47px;
   padding: 40px 0 0;
-  ${({ position }) => position === 'left'
-    ? css`margin-left: auto;`
-    : css`margin: 0;`
-  }
+  color: ${({ theme }) => theme.colors.text.grayPrimary};
+  ${({ position }) => getMargin(position)}
 `
 
 const Topic = styled('div')<Props>`
@@ -53,24 +58,23 @@ const Topic = styled('div')<Props>`
   width: 85%;
   max-width: 700px;
   font-size: 36px;
-  line-height: 42px;
-  padding-bottom: 30px;
+  font-weight: 400;
+  line-height: 42.19px;
+  padding-bottom: 20px;
   letter-spacing: 1.5px;
   color: ${({ theme }) =>  theme.colors.text.graySecondary};
-  ${({ position }) => position === 'left'
-    ? css`margin-left: auto;`
-    : css`margin: 0;`
-  }
+  ${({ position }) => getMargin(position)}
 
   .seq {
     font-size: 18px;
-    line-height: 21px;
-    margin-right: 15px;
+    font-weight: 400;
+    line-height: 21.09px;
     letter-spacing: 1.5px;
+    margin-right: 10px;
     .underline {
       height: 5px;
       width: 100%;
-      margin-top: 5px;
+      margin-top: 3px;
       border-radius: 5px;
     }
   }
@@ -102,10 +106,7 @@ const Description = styled('p')<Props>`
   font-size: 20px;
   font-weight: 400;
   line-height: 28px;
-  ${({ position }) => position === 'left'
-    ? css`margin-left: auto;`
-    : css`margin: 0;`
-  }
+  ${({ position }) => getMargin(position)}
 `
 
 // react context ------------------
@@ -116,14 +117,18 @@ const Context = createContext<Props>({
 
 // component LandingSwip ----------
 
-const hooks: ReactFC<PropsWithChildren> = ({ children, ...props }, Component) => {
+const Consumer: ConsumerFC = ({
+  children,
+  Component,
+  ...props
+}) => {
   const ctx = useContext(Context)
   return (
     <Component {...ctx} {...props}>{children}</Component>
   )
 }
 
-const LandingSwip: FC<PropsWithChildren<Props>> = ({ children, ...props }) => {
+const LandingSwip: FC<Props> = ({ children, ...props }) => {
   return (
     <Context.Provider value={props}>
       {children}
@@ -131,15 +136,19 @@ const LandingSwip: FC<PropsWithChildren<Props>> = ({ children, ...props }) => {
   )
 }
 
-LandingSwip.Content = (props) => hooks(props, Content)
+LandingSwip.Content = props => Consumer({ ...props, Component: Content })
 
-LandingSwip.Container = Container
+LandingSwip.Container = props => Consumer({ ...props, Component: Container })
 
-LandingSwip.Heading = (props) => hooks(props, Heading)
+LandingSwip.Heading = props => Consumer({ ...props, Component: Heading })
 
-LandingSwip.Topic = (props) => hooks(props, Topic)
+LandingSwip.Topic = props => Consumer({ ...props, Component: Topic })
 
-LandingSwip.Description = (props) => hooks(props, Description)
+LandingSwip.Description = props => Consumer({ ...props, Component: Description })
+
+LandingSwip.defaultProps = {
+  position: 'left'
+}
 
 
 export default LandingSwip

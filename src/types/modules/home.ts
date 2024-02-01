@@ -7,6 +7,7 @@ export interface DataItemLanding {
   topic?: string
   topicSeq?: string
   heading?: string
+  contentPb?: number
   description?: string
 }
 
