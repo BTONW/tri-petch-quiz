@@ -7,6 +7,8 @@ import { Roboto } from 'next/font/google'
 import styles from '@/src/styles/global'
 import { theme } from '@/src/constants/styles'
 
+import 'swiper/css'
+
 const roboto = Roboto({
   weight: ['400', '700'],
   style: ['normal', 'italic'],

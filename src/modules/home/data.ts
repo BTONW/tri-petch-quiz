@@ -13,7 +13,6 @@ const data: DataLanding[] = [
       size: {
         mobile: { width: 218, height: 281 },
         tablet: { width: 518, height: 719 },
-        // tablet: { width: 678, height: 950 },
         desktop: { width: 678, height: 950 },
       }
     },

@@ -1,4 +1,4 @@
-import { Props, ImageProps } from '@/src/types/components/LandingSwip'
+import { Props, ImageProps } from '@/src/types/components/LandingSwipe'
 import { Theme } from '@/src/types/constants/styles'
 
 export interface DataItemLanding {

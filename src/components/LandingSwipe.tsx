@@ -1,9 +1,10 @@
 import styled from '@emotion/styled'
 import { css } from '@emotion/react'
-import { createContext, useContext } from 'react'
+import { Swiper, SwiperSlide, SwiperClass } from 'swiper/react'
+import { Children, isValidElement, createContext, useState, useContext, useEffect } from 'react'
 
 import { Theme } from '@/src/types/constants/styles'
-import { FC, ConsumerFC, Props, ContentProps, ImageProps } from '@/src/types/components/LandingSwip'
+import { FC, ConsumerFC, Props, ContentProps, ImageProps } from '@/src/types/components/LandingSwipe'
 
 const getMargin = (position: Props['position']) => position === 'left'
   ? css`
@@ -17,7 +18,9 @@ const getMargin = (position: Props['position']) => position === 'left'
 // @emotion styled ------------------
 
 const Content = styled('div')<ContentProps>`
+  height: 100%;
   display: flex;
+
   ${({ color, theme, position, pb }) => css`
     background-color: ${theme.colors.bg[color]};
     padding: 60px 0 ${typeof pb !== 'undefined'
@@ -40,11 +43,18 @@ const Content = styled('div')<ContentProps>`
         : 30
       }px;
     }
+
+    @media screen and (max-width: 730px) { // mobile
+      padding: 60px 20px ${typeof pb !== 'undefined'
+        ? pb
+        : 60
+      }px;
+    }
   `}
 `
 
 const Image = styled('img')<ImageProps>`
-  z-index: 1;
+  z-index: 2;
   position: absolute;
   ${({ options, position }) => css`
     content: url(${options.src.desktop});
@@ -52,12 +62,21 @@ const Image = styled('img')<ImageProps>`
     height: 100%;
     ${position === 'left'
       ? css`
-        top: -20px;
+        top: -50px;
         right: 80px;
         
         @media screen and (max-width: 1310px) { // tablet
           content: url(${options.src.tablet});
           right: 0;
+        }
+
+        @media screen and (max-width: 730px) { // mobile
+          content: url(${options.src.mobile});
+          right: 50%;
+          top: 100px;
+          width: 302px;
+          height: 250px;
+          transform: translateX(50%);
         }
       `
       : css`
@@ -68,6 +87,15 @@ const Image = styled('img')<ImageProps>`
           content: url(${options.src.tablet});
           left: 0;
         }
+
+        @media screen and (max-width: 730px) { // mobile
+          content: url(${options.src.mobile});
+          left: 50%;
+          top: 100px;
+          width: 218px;
+          height: 281px;
+          transform: translateX(-50%);
+        }
       `
     }
   `};
@@ -77,6 +105,9 @@ const Container = styled('div')`
   width: 50%;
   @media screen and (max-width: 1310px) { // tablet
     width: 55%;
+  }
+  @media screen and (max-width: 730px) { // mobile
+    width: 100%;
   }
 `
 
@@ -89,6 +120,15 @@ const Heading = styled('h1')<Props>`
   padding: 40px 0 0;
   color: ${({ theme }) => theme.colors.text.grayPrimary};
   ${({ position }) => getMargin(position)}
+
+  @media screen and (max-width: 730px) { // mobile
+    width: 100%;
+    max-width: unset;
+    height: ${({ position }) => position === 'left' ? '300px' : '320px'};
+    font-size: 50px;
+    line-height: 58.59px;
+    padding: 20px 0 0;
+  }
 `
 
 const Topic = styled('div')<Props>`
@@ -133,8 +173,35 @@ const Topic = styled('div')<Props>`
             }
           }
         }
+        @media screen and (max-width: 730px) { // mobile
+          .seq {
+            color: ${theme.colors.text.black};
+            .underline {
+              background-color: ${theme.colors.underline.purple};
+            }
+          }
+        }
       }
     `)
+  }
+
+  @media screen and (max-width: 730px) { // mobile
+    width: 100%;
+    max-width: unset;
+    font-size: 28px;
+    line-height: 32.81px;
+    padding-bottom: 10px;
+
+    .seq {
+      font-size: 14px;
+      line-height: 16.14px;
+      .underline {
+        height: 4px;
+        width: 100%;
+        margin-top: 2px;
+        border-radius: 4px;
+      }
+    }
   }
 `
 
@@ -146,10 +213,29 @@ const Description = styled('p')<Props>`
   font-weight: 400;
   line-height: 28px;
   ${({ position }) => getMargin(position)}
+
+  @media screen and (max-width: 730px) { // mobile
+    width: 100%;
+    max-width: unset;
+    font-size: 15px;
+    line-height: 17.58px;
+  }
 `
 
 const Wrapper = styled('div')`
   position: relative;
+
+  .swiper {
+    height: 100%;
+  }
+
+  .swiper-slide {
+    height: auto !important;
+  }
+
+  .swiper-content {
+    height: 100% !important
+  }
 `
 
 // react context ------------------
@@ -158,7 +244,7 @@ const Context = createContext<Props>({
   position: 'left'
 })
 
-// component LandingSwip ----------
+// component LandingSwipe ----------
 
 const Consumer: ConsumerFC = ({
   children,
@@ -171,7 +257,7 @@ const Consumer: ConsumerFC = ({
   )
 }
 
-const LandingSwip: FC<Props> = ({ children, ...props }) => {
+const LandingSwipe: FC<Props> = ({ children, ...props }) => {
   return (
     <Context.Provider value={props}>
       <Wrapper>{children}</Wrapper>
@@ -179,21 +265,50 @@ const LandingSwip: FC<Props> = ({ children, ...props }) => {
   )
 }
 
-LandingSwip.Content = props => Consumer({ ...props, Component: Content })
+LandingSwipe.Swiper = ({ children, isSwipe, active, onSwipe }) => {
+  const [swiper, setSwiper] = useState<SwiperClass>()
 
-LandingSwip.Image = props => Consumer({ ...props, Component: Image })
+  const handleOnSetSwiper = () => {
+    if (swiper) {
+      swiper.slideTo(active)
+    }
+  }
 
-LandingSwip.Container = props => Consumer({ ...props, Component: Container })
-
-LandingSwip.Heading = props => Consumer({ ...props, Component: Heading })
-
-LandingSwip.Topic = props => Consumer({ ...props, Component: Topic })
-
-LandingSwip.Description = props => Consumer({ ...props, Component: Description })
-
-LandingSwip.defaultProps = {
-  position: 'left'
+  useEffect(() => {
+    handleOnSetSwiper()
+  }, [active, swiper])
+  
+  return isSwipe ? (
+    <Swiper
+      spaceBetween={0}
+      slidesPerView={1}
+      onSwiper={setSwiper}
+      onSlideChange={onSwipe}
+    >
+      {
+        Children.map(children, child => {
+          if (isValidElement(child)) {
+            return (
+              <SwiperSlide key={child.key}>{child}</SwiperSlide>
+            )
+          }
+          return child
+        })
+      }
+    </Swiper>
+  ) : children
 }
 
+LandingSwipe.Content = props => Consumer({ ...props, Component: Content })
 
-export default LandingSwip
+LandingSwipe.Image = props => Consumer({ ...props, Component: Image })
+
+LandingSwipe.Container = props => Consumer({ ...props, Component: Container })
+
+LandingSwipe.Heading = props => Consumer({ ...props, Component: Heading })
+
+LandingSwipe.Topic = props => Consumer({ ...props, Component: Topic })
+
+LandingSwipe.Description = props => Consumer({ ...props, Component: Description })
+
+export default LandingSwipe

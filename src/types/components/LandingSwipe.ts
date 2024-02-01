@@ -1,4 +1,5 @@
 import { FC as ReactFC, PropsWithChildren, HTMLAttributes } from 'react'
+import { SwiperClass } from 'swiper/react'
 import { StyledComponent } from '@emotion/styled'
 import { Theme } from '@/src/types/constants/styles'
 
@@ -26,6 +27,12 @@ export interface ImageProps extends Props {
   }
 }
 
+export interface Swiperprops {
+  active: number
+  isSwipe: boolean
+  onSwipe: (event: SwiperClass) => void
+}
+
 export interface ConsumerFC extends ReactFC<PropsWithChildren<{ Component: StyledComponent<any> }>> {}
 
 export interface FC<P> extends ReactFC<PropsWithChildren<P>> {
@@ -35,4 +42,5 @@ export interface FC<P> extends ReactFC<PropsWithChildren<P>> {
   Heading: ReactFC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>>
   Topic: ReactFC<PropsWithChildren<HTMLAttributes<HTMLHeadingElement>>>
   Description: ReactFC<PropsWithChildren<HTMLAttributes<HTMLParagraphElement>>>
+  Swiper: ReactFC<Swiperprops & PropsWithChildren<HTMLAttributes<HTMLDivElement>>>
 }

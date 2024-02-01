@@ -1,39 +1,87 @@
-import { FC } from 'react'
-import LandingSwip from '@/src/components/LandingSwip'
+import { FC, useState, useEffect } from 'react'
+import useWindowDimensions from '@/src/hooks/useWindowDimensions'
+import LandingSwipe from '@/src/components/LandingSwipe'
 
 import data from './data'
+import { DataLanding } from '@/src/types/modules/home'
 
 const ViewComponent: FC = () => {
+  const [athlets, setAthlets] = useState(1)
+  const [players, setPlayers] = useState(0)
+
+  const { isMobile } = useWindowDimensions()
+
+  const handleGetSwipe = ({ key }: DataLanding ) => {
+    switch (key) {
+      case 'ATHLETS':
+        return athlets
+      case 'PLAYERS':
+        return players
+    }
+  }
+
+  const handleChangeSwipe = ({ key }: DataLanding, val: number) => {
+    switch (key) {
+      case 'ATHLETS':
+        setAthlets(val)
+        break
+      case 'PLAYERS':
+        setPlayers(val)
+        break
+    }
+  }
+
   return (
     <>
       {
         data.map((val, idx) => (
-          <LandingSwip key={idx} position={val.position}>
-            <LandingSwip.Image options={val.imageOptions} />
+          <LandingSwipe key={idx} position={val.position}>
+            <LandingSwipe.Image options={val.imageOptions} />
             {
-              val.items.map(item => (
-                <LandingSwip.Content key={item.key} color={item.color} pb={item.contentPb}>
-                  <LandingSwip.Container>
-                    {item.heading && (
-                      <LandingSwip.Heading>{item.heading}</LandingSwip.Heading>
-                    )}
-                    {item.topic && (
-                      <LandingSwip.Topic className={item.color}>
-                        <span className='seq'>
-                          {item.topicSeq}
-                          <div className='underline' />
-                        </span>
-                        {item.topic}
-                      </LandingSwip.Topic>
-                    )}
-                    {item.description && (
-                      <LandingSwip.Description>{item.description}</LandingSwip.Description>
-                    )}
-                  </LandingSwip.Container>
-                </LandingSwip.Content>
+              val.items.filter(item => item.heading).map(item => (
+                <LandingSwipe.Content
+                  key={item.key}
+                  color={item.color}
+                  pb={item.contentPb}
+                  className={isMobile ? 'pt-0' : ''}
+                >
+                  <LandingSwipe.Container>
+                    <LandingSwipe.Heading>{item.heading}</LandingSwipe.Heading>
+                  </LandingSwipe.Container>
+                </LandingSwipe.Content>
               ))
             }
-          </LandingSwip>
+            <LandingSwipe.Swiper
+              isSwipe={isMobile}
+              active={handleGetSwipe(val) as number}
+              onSwipe={e => handleChangeSwipe(val, e.activeIndex)}
+            >
+              {
+                val.items.filter(item => !item.heading).map(item => (
+                  <LandingSwipe.Content
+                    key={item.key}
+                    pb={item.contentPb}
+                    color={isMobile ? 'gray' : item.color}
+                  >
+                    <LandingSwipe.Container>
+                      {item.topic && (
+                        <LandingSwipe.Topic className={item.color}>
+                          <span className='seq'>
+                            {item.topicSeq}
+                            <div className='underline' />
+                          </span>
+                          {item.topic}
+                        </LandingSwipe.Topic>
+                      )}
+                      {item.description && (
+                        <LandingSwipe.Description>{item.description}</LandingSwipe.Description>
+                      )}
+                    </LandingSwipe.Container>
+                  </LandingSwipe.Content>
+                ))
+              }
+            </LandingSwipe.Swiper>
+          </LandingSwipe>
         ))
       }
     </>
