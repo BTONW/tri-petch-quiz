@@ -1,10 +1,11 @@
 'use client'
 
+import { Roboto } from 'next/font/google'
 import { FC, PropsWithChildren } from 'react'
 import { Global, ThemeProvider } from '@emotion/react'
-import { Roboto } from 'next/font/google'
 
 import styles from '@/src/styles/global'
+
 import { theme } from '@/src/constants/styles'
 
 import 'swiper/css'

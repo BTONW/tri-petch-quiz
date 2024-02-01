@@ -34,7 +34,7 @@ export interface SwiperProps {
   onBullet: (value: number) => void
   bullets: {
     bg: string
-    amount: number 
+    amount: number
   }
 }
 

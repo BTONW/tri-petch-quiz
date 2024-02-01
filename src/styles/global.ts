@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 
 import { theme } from '@/src/constants/styles'
+
 import { Theme } from '@/src/types/constants/styles'
 
 export default css`

@@ -1,13 +1,17 @@
 import { FC, useState } from 'react'
-import useWindowDimensions from '@/src/hooks/useWindowDimensions'
-import LandingSwipe from '@/src/components/LandingSwipe'
 
-import data from './data'
-import { DataLanding } from '@/src/types/modules/home'
 import { theme } from '@/src/constants/styles'
 
+import { DataLanding } from '@/src/types/modules/home'
+
+import LandingSwipe from '@/src/components/LandingSwipe'
+
+import useWindowDimensions from '@/src/hooks/useWindowDimensions'
+
+import data from './data'
+
 const ViewComponent: FC = () => {
-  const [athlets, setAthlets] = useState(1)
+  const [athlets, setAthlets] = useState(0)
   const [players, setPlayers] = useState(0)
 
   const { isMobile } = useWindowDimensions()
@@ -47,7 +51,9 @@ const ViewComponent: FC = () => {
                   className={isMobile ? 'pt-0' : ''}
                 >
                   <LandingSwipe.Container>
-                    <LandingSwipe.Heading>{item.heading}</LandingSwipe.Heading>
+                    <LandingSwipe.Heading>
+                      {item.heading}
+                    </LandingSwipe.Heading>
                   </LandingSwipe.Container>
                 </LandingSwipe.Content>
               ))
@@ -80,7 +86,9 @@ const ViewComponent: FC = () => {
                         </LandingSwipe.Topic>
                       )}
                       {item.description && (
-                        <LandingSwipe.Description>{item.description}</LandingSwipe.Description>
+                        <LandingSwipe.Description>
+                          {item.description}
+                        </LandingSwipe.Description>
                       )}
                     </LandingSwipe.Container>
                   </LandingSwipe.Content>
