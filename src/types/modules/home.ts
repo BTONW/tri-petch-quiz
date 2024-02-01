@@ -1,4 +1,4 @@
-import { Props } from '@/src/types/components/LandingSwip'
+import { Props, ImageProps } from '@/src/types/components/LandingSwip'
 import { Theme } from '@/src/types/constants/styles'
 
 export interface DataItemLanding {
@@ -14,5 +14,6 @@ export interface DataItemLanding {
 export interface DataLanding {
   key: string
   position: Props['position']
+  imageOptions: ImageProps['options']
   items: DataItemLanding[]
 }

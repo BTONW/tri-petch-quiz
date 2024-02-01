@@ -9,6 +9,7 @@ const ViewComponent: FC = () => {
       {
         data.map((val, idx) => (
           <LandingSwip key={idx} position={val.position}>
+            <LandingSwip.Image options={val.imageOptions} />
             {
               val.items.map(item => (
                 <LandingSwip.Content key={item.key} color={item.color} pb={item.contentPb}>

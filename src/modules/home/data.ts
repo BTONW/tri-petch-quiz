@@ -4,6 +4,19 @@ const data: DataLanding[] = [
   {
     key: 'ATHLETS',
     position: 'right',
+    imageOptions: {
+      src: {
+        mobile: '/athlets-mobile.svg',
+        tablet: '/athlets-tablet.svg',
+        desktop: '/athlets-desktop.svg'
+      },
+      size: {
+        mobile: { width: 218, height: 281 },
+        tablet: { width: 518, height: 719 },
+        // tablet: { width: 678, height: 950 },
+        desktop: { width: 678, height: 950 },
+      }
+    },
     items: [
       { 
         key: 'ATHLETS_1',
@@ -37,6 +50,18 @@ const data: DataLanding[] = [
   {
     key: 'PLAYERS',
     position: 'left',
+    imageOptions: {
+      src: {
+        mobile: '/players-mobile.svg',
+        tablet: '/players-tablet.svg',
+        desktop: '/players-desktop.svg'
+      },
+      size: {
+        mobile: { width: 218, height: 281 },
+        tablet: { width: 518, height: 719 },
+        desktop: { width: 678, height: 950 },
+      }
+    },
     items: [
       { 
         key: 'PLAYERS_1',

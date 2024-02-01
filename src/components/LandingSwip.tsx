@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { createContext, useContext } from 'react'
 
 import { Theme } from '@/src/types/constants/styles'
-import { FC, ConsumerFC, Props, ContentProps } from '@/src/types/components/LandingSwip'
+import { FC, ConsumerFC, Props, ContentProps, ImageProps } from '@/src/types/components/LandingSwip'
 
 const getMargin = (position: Props['position']) => position === 'left'
   ? css`
@@ -18,7 +18,6 @@ const getMargin = (position: Props['position']) => position === 'left'
 
 const Content = styled('div')<ContentProps>`
   display: flex;
-  position: relative;
   ${({ color, theme, position, pb }) => css`
     background-color: ${theme.colors.bg[color]};
     padding: 60px 0 ${typeof pb !== 'undefined'
@@ -34,11 +33,51 @@ const Content = styled('div')<ContentProps>`
         ? 'white'
         : 'black'
     ]};
+
+    @media screen and (max-width: 1310px) { // tablet
+      padding: 30px 0 ${typeof pb !== 'undefined'
+        ? pb
+        : 30
+      }px;
+    }
   `}
+`
+
+const Image = styled('img')<ImageProps>`
+  z-index: 1;
+  position: absolute;
+  ${({ options, position }) => css`
+    content: url(${options.src.desktop});
+    width: 50%;
+    height: 100%;
+    ${position === 'left'
+      ? css`
+        top: -20px;
+        right: 80px;
+        
+        @media screen and (max-width: 1310px) { // tablet
+          content: url(${options.src.tablet});
+          right: 0;
+        }
+      `
+      : css`
+        top: 50px;
+        left: 80px;
+        
+        @media screen and (max-width: 1310px) { // tablet
+          content: url(${options.src.tablet});
+          left: 0;
+        }
+      `
+    }
+  `};
 `
 
 const Container = styled('div')`
   width: 50%;
+  @media screen and (max-width: 1310px) { // tablet
+    width: 55%;
+  }
 `
 
 const Heading = styled('h1')<Props>`
@@ -109,6 +148,10 @@ const Description = styled('p')<Props>`
   ${({ position }) => getMargin(position)}
 `
 
+const Wrapper = styled('div')`
+  position: relative;
+`
+
 // react context ------------------
 
 const Context = createContext<Props>({
@@ -131,12 +174,14 @@ const Consumer: ConsumerFC = ({
 const LandingSwip: FC<Props> = ({ children, ...props }) => {
   return (
     <Context.Provider value={props}>
-      {children}
+      <Wrapper>{children}</Wrapper>
     </Context.Provider>
   )
 }
 
 LandingSwip.Content = props => Consumer({ ...props, Component: Content })
+
+LandingSwip.Image = props => Consumer({ ...props, Component: Image })
 
 LandingSwip.Container = props => Consumer({ ...props, Component: Container })
 
