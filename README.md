@@ -23,4 +23,4 @@ npm run dev or yarn dev
 npm run build or yarn build
 ```
 
-Note, the destination of compile in directory => /out
+Note, the destination of compile in directory => /examples
