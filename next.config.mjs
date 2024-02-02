@@ -2,7 +2,7 @@
 
 const nextConfig = {
   output: 'export',
-  distDir: 'examples',
+  distDir: 'ex-examples',
   assetPrefix: process.env.NEXT_PUBLIC_PREFIX_URL,
   env: {
     prefix_url: process.env.NEXT_PUBLIC_PREFIX_URL || ''

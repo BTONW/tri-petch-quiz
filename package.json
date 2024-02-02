@@ -3,11 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "lint": "next lint",
+    "start": "next start",
     "dev": "dotenv -e .env.dev next dev",
     "build": "dotenv -v NEXT_PUBLIC_PREFIX_URL=http://127.0.0.1:8080 next build",
     "export:githib": "dotenv -e .env.prd next build",
-    "start": "next start",
-    "lint": "next lint"
+    "nojekyll:githib": "touch ./examples/.nojekyll && gh-pages -d examples -t true"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
@@ -24,6 +25,7 @@
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.1.0",
+    "gh-pages": "^6.1.1",
     "typescript": "^5"
   }
 }
