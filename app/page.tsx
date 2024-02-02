@@ -1,8 +1,10 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { FC } from 'react'
 
-import ViewComponent from '@/src/modules/home'
+const ViewComponent = dynamic(() => import('../src/modules/home'), { ssr: false })
+
 
 const Page: FC = () => {
   return (

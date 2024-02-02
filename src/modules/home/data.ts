@@ -6,9 +6,9 @@ const data: DataLanding[] = [
     position: 'right',
     imageOptions: {
       src: {
-        mobile: '/athlets-mobile.svg',
-        tablet: '/athlets-tablet.svg',
-        desktop: '/athlets-desktop.svg'
+        mobile: `${process.env.prefix_url}/athlets-mobile.svg`,
+        tablet: `${process.env.prefix_url}/athlets-tablet.svg`,
+        desktop: `${process.env.prefix_url}/athlets-desktop.svg`
       },
       size: {
         mobile: { width: 218, height: 281 },
@@ -51,9 +51,9 @@ const data: DataLanding[] = [
     position: 'left',
     imageOptions: {
       src: {
-        mobile: '/players-mobile.svg',
-        tablet: '/players-tablet.svg',
-        desktop: '/players-desktop.svg'
+        mobile: `${process.env.prefix_url}/players-mobile.svg`,
+        tablet: `${process.env.prefix_url}/players-tablet.svg`,
+        desktop: `${process.env.prefix_url}/players-desktop.svg`
       },
       size: {
         mobile: { width: 218, height: 281 },
